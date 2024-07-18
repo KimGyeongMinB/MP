@@ -1,0 +1,36 @@
+import heapq
+import sys
+# import io
+#
+# sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+# sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+def Min_Heap():
+    N = int(sys.stdin.readline())
+    x = [int(sys.stdin.readline().strip()) for _ in range(N)]
+    zero_count = x.count(0)
+    answer = []
+    heap = []
+    for i in x:
+        if i == 0:
+            if heap and answer:
+                heap.append(heapq.heappop(answer))
+            elif heap and not answer:
+                heap.append(i)
+            elif not heap and answer:
+                heap.append(heapq.heappop(answer))
+
+            else:
+                if not heap and not answer:
+                    heapq.heappush(heap, i)
+        else:
+            heapq.heappush(answer, i)
+
+
+        if len(heap) == zero_count:
+            break
+
+    return heap
+
+min_heap = Min_Heap()
+for result in min_heap:
+    print(result)
